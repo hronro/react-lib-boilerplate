@@ -1,0 +1,39 @@
+{
+  "name": "react-lib-boilerplate",
+  "version": "0.1.0",
+  "description": "A boilerplate to build React.js library using Rollup.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "non-module": "browser/react-my-lib.min.js",
+  "files": [
+    "lib",
+    "es",
+    "browser"
+  ],
+  "scripts": {
+    "start": "run-p watch example",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "example": "cd examples && react-scripts start",
+    "watch": "rollup -w -c rollup.config.js",
+    "prepublishOnly": "run-s build"
+  },
+  "bugs": {
+    "url": "https://github.com/foisonocean/react-lib-boilerplate/issues"
+  },
+  "homepage": "https://github.com/foisonocean/react-lib-boilerplate#readme",
+  "repository": "https://github.com/foisonocean/react-lib-boilerplate.git",
+  "author": "foisonocean",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^16.0.25",
+    "cross-env": "^5.1.1",
+    "npm-run-all": "^4.1.2",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-scripts": "^1.0.17",
+    "rollup": "^0.52.0",
+    "rollup-plugin-closure-compiler-js": "^1.0.6",
+    "rollup-plugin-typescript2": "^0.8.4",
+    "typescript": "^2.6.2"
+  }
+}

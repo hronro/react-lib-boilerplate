@@ -1,0 +1,27 @@
+# OSX
+#
+.DS_Store
+
+# node.js
+#
+node_modules/
+npm-debug.log
+
+# BUCK
+static/
+
+# VS Code
+#
+.vscode/
+typings/
+
+# Compiled files
+#
+lib/
+es/
+browser/
+examples/src/lib
+
+# typescript cache
+#
+/.typescript-compile-cache
