@@ -22,7 +22,9 @@ lib/
 es/
 browser/
 examples/src/lib
+/dist
 
-# typescript cache
+# Cache
 #
+/.cache
 /.typescript-compile-cache
