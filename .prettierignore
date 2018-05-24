@@ -1,0 +1,8 @@
+node_modules
+/dist
+/.cache
+/.typescript-compile-cache
+/examples/src/lib
+/browser
+/es
+/lib
