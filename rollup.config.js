@@ -74,6 +74,7 @@ const browserConfig = Object.assign({}, baseConfig, {
       compilationLevel: 'SIMPLE',
       languageIn: 'ECMASCRIPT5_STRICT',
       languageOut: 'ECMASCRIPT5_STRICT',
+      rewritePolyfills: false,
     }),
   ],
 });
