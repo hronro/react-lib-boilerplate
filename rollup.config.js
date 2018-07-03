@@ -1,31 +1,59 @@
-import { resolve } from 'path';
+import path from 'path';
 
+import replace from 'rollup-plugin-replace';
+import NodeResolve from 'rollup-plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
+import postcss from 'rollup-plugin-postcss';
 import closure from 'rollup-plugin-closure-compiler-js';
+
+import camelCase from 'camelcase';
+import autoprefixer from 'autoprefixer';
+
 import packageInfo from './package.json';
+import { DEFAULT_ECDH_CURVE } from 'tls';
 
 const isProd = process.env.NODE_ENV === 'production';
 
+const baseExternalDependencies = {
+  'react': 'React',
+  'react-dom': 'ReactDOM',
+  // currently we use TypeScript so we don't need `PropTypes`
+  // 'prop-types': 'PropTypes',
+}
+
+const modularExternalDependencies = [
+  ...Object.keys(baseExternalDependencies),
+  ...Object.keys(packageInfo.dependencies || {})
+]
+
+const browserExternalDependencies = Object.keys(baseExternalDependencies)
+
 const baseConfig = {
   input: 'src/index.ts',
-  external: ['react', 'react-dom', 'prop-types'],
   plugins: [
+    NodeResolve({
+      module: true,
+      jsnext: true,
+      main: true,
+      modulesOnly: true,
+    }),
+    replace({
+      'clsprefix': packageInfo.name,
+    }),
     typescript({
       cacheRoot: '.typescript-compile-cache',
       clean: isProd ? true : false,
     }),
+    postcss({
+      extensions: ['.css', '.styl', '.stylus'],
+      plugins: [autoprefixer],
+      extract: isProd ? path.resolve(__dirname, './styles.css') : path.resolve(__dirname, './examples/src/lib/styles.css'),
+    })
   ],
 };
 
-const globals = {
-  react: 'React',
-  'react-dom': 'ReactDOM',
-  'prop-types': 'PropTypes',
-};
-
-console.log(Object.values(globals));
-
 const devConfig =  Object.assign({}, baseConfig, {
+  external: modularExternalDependencies,
   output: {
     file: 'examples/src/lib/index.js',
     format: 'es',
@@ -34,6 +62,7 @@ const devConfig =  Object.assign({}, baseConfig, {
 });
 
 const commonjsConfig = Object.assign({}, baseConfig, {
+  external: modularExternalDependencies,
   output: {
     file: packageInfo.main,
     format: 'cjs',
@@ -41,6 +70,7 @@ const commonjsConfig = Object.assign({}, baseConfig, {
 });
 
 const esConfig = Object.assign({}, baseConfig, {
+  external: modularExternalDependencies,
   output: {
     file: packageInfo.module,
     format: 'es',
@@ -48,22 +78,23 @@ const esConfig = Object.assign({}, baseConfig, {
 });
 
 const browserConfig = Object.assign({}, baseConfig, {
-  name: 'ReactDynamicFont',
-  globals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    'prop-types': 'PropTypes',
-  },
+  external: browserExternalDependencies,
   output: {
-    file: packageInfo['non-module'],
+    name: camelCase(packageInfo.name, {pascalCase: true}),
+    file: packageInfo.unpkg,
     format: 'iife',
+    globals: baseExternalDependencies,
   },
   plugins: [
     ...baseConfig.plugins,
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
     closure({
       compilationLevel: 'SIMPLE',
       languageIn: 'ECMASCRIPT5_STRICT',
       languageOut: 'ECMASCRIPT5_STRICT',
+      rewritePolyfills: false,
     }),
   ],
 });

@@ -23,6 +23,7 @@ es/
 browser/
 examples/src/lib
 /dist
+/styles.css
 
 # Cache
 #

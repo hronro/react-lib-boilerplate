@@ -1,3 +1,3 @@
-import { MyComponent } from './my-component';
+import { MyComponent } from 'my-component';
 
 export default MyComponent;
