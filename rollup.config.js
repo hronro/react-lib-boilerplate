@@ -46,15 +46,15 @@ const esConfig = Object.assign({}, baseConfig, {
 });
 
 const browserConfig = Object.assign({}, baseConfig, {
-  name: 'ReactDynamicFont',
-  globals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    'prop-types': 'PropTypes',
-  },
   output: {
+    name: 'ReactDynamicFont',
     file: packageInfo['non-module'],
     format: 'iife',
+    globals: {
+      react: 'React',
+      'react-dom': 'ReactDOM',
+      'prop-types': 'PropTypes',
+    },
   },
   plugins: [
     ...baseConfig.plugins,
