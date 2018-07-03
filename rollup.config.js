@@ -1,15 +1,33 @@
-import { resolve } from 'path';
-
+import resolve from 'rollup-plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
 import closure from 'rollup-plugin-closure-compiler-js';
 import packageInfo from './package.json';
 
 const isProd = process.env.NODE_ENV === 'production';
 
+const baseExternalDependencies = {
+  'react': 'React',
+  'react-dom': 'ReactDOM',
+  // currently we use TypeScript so we don't need `PropTypes`
+  // 'prop-types': 'PropTypes',
+}
+
+const modularExternalDependencies = [
+  ...Object.keys(baseExternalDependencies),
+  ...Object.keys(packageInfo.dependencies || {})
+]
+
+const browserExternalDependencies = Object.keys(baseExternalDependencies)
+
 const baseConfig = {
   input: 'src/index.ts',
-  external: ['react', 'react-dom', 'prop-types'],
   plugins: [
+    resolve({
+      module: true,
+      jsnext: true,
+      main: true,
+      modulesOnly: true,
+    }),
     typescript({
       cacheRoot: '.typescript-compile-cache',
       clean: isProd ? true : false,
@@ -17,13 +35,8 @@ const baseConfig = {
   ],
 };
 
-const globals = {
-  react: 'React',
-  'react-dom': 'ReactDOM',
-  'prop-types': 'PropTypes',
-};
-
 const devConfig =  Object.assign({}, baseConfig, {
+  external: modularExternalDependencies,
   output: {
     file: 'examples/src/lib/index.js',
     format: 'es',
@@ -32,6 +45,7 @@ const devConfig =  Object.assign({}, baseConfig, {
 });
 
 const commonjsConfig = Object.assign({}, baseConfig, {
+  external: modularExternalDependencies,
   output: {
     file: packageInfo.main,
     format: 'cjs',
@@ -39,6 +53,7 @@ const commonjsConfig = Object.assign({}, baseConfig, {
 });
 
 const esConfig = Object.assign({}, baseConfig, {
+  external: modularExternalDependencies,
   output: {
     file: packageInfo.module,
     format: 'es',
@@ -46,15 +61,12 @@ const esConfig = Object.assign({}, baseConfig, {
 });
 
 const browserConfig = Object.assign({}, baseConfig, {
+  external: browserExternalDependencies,
   output: {
     name: 'MyComponent',
     file: packageInfo['non-module'],
     format: 'iife',
-    globals: {
-      react: 'React',
-      'react-dom': 'ReactDOM',
-      'prop-types': 'PropTypes',
-    },
+    globals: baseExternalDependencies,
   },
   plugins: [
     ...baseConfig.plugins,
