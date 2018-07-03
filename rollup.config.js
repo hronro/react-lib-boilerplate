@@ -65,7 +65,7 @@ const browserConfig = Object.assign({}, baseConfig, {
   external: browserExternalDependencies,
   output: {
     name: 'MyComponent',
-    file: packageInfo['non-module'],
+    file: packageInfo.unpkg,
     format: 'iife',
     globals: baseExternalDependencies,
   },
