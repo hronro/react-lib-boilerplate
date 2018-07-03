@@ -1,11 +1,16 @@
+import path from 'path';
+
 import replace from 'rollup-plugin-replace';
-import resolve from 'rollup-plugin-node-resolve';
+import NodeResolve from 'rollup-plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
+import postcss from 'rollup-plugin-postcss';
 import closure from 'rollup-plugin-closure-compiler-js';
 
 import camelCase from 'camelcase';
+import autoprefixer from 'autoprefixer';
 
 import packageInfo from './package.json';
+import { DEFAULT_ECDH_CURVE } from 'tls';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -26,16 +31,24 @@ const browserExternalDependencies = Object.keys(baseExternalDependencies)
 const baseConfig = {
   input: 'src/index.ts',
   plugins: [
-    resolve({
+    NodeResolve({
       module: true,
       jsnext: true,
       main: true,
       modulesOnly: true,
     }),
+    replace({
+      'clsprefix': packageInfo.name,
+    }),
     typescript({
       cacheRoot: '.typescript-compile-cache',
       clean: isProd ? true : false,
     }),
+    postcss({
+      extensions: ['.css', '.styl', '.stylus'],
+      plugins: [autoprefixer],
+      extract: isProd ? path.resolve(__dirname, './styles.css') : path.resolve(__dirname, './examples/src/lib/styles.css'),
+    })
   ],
 };
 
