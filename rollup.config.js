@@ -23,8 +23,6 @@ const globals = {
   'prop-types': 'PropTypes',
 };
 
-console.log(Object.values(globals));
-
 const devConfig =  Object.assign({}, baseConfig, {
   output: {
     file: 'examples/src/lib/index.js',
