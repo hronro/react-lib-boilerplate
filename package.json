@@ -12,9 +12,12 @@
   ],
   "scripts": {
     "start": "run-p watch example",
-    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "build": "run-s clean build:rollup",
+    "build:rollup": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "example": "parcel examples/public/index.html",
-    "watch": "rollup -w -c rollup.config.js",
+    "watch": "run-s clean watch:rollup",
+    "watch:rollup": "rollup -w -c rollup.config.js",
+    "clean": "rimraf examples/src/lib es lib browser",
     "test": "jest --watch",
     "test:all": "jest",
     "prepublishOnly": "run-s build"
@@ -44,6 +47,7 @@
     "parcel-bundler": "^1.9.4",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "rimraf": "^2.6.2",
     "rollup": "^0.62.0",
     "rollup-plugin-closure-compiler-js": "^1.0.6",
     "rollup-plugin-typescript2": "^0.15.1",
