@@ -1,17 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './app.css';
 
+// eslint-disable-next-line import/no-unresolved
 import MyLib from './lib';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="example">
-        The following content are import from my lib.
-        <MyLib />
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div className="example">
+    The following content are import from my lib.
+    <MyLib />
+  </div>
+);
 
 export default App;

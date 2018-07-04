@@ -21,12 +21,19 @@
     "clean": "rimraf examples/src/lib es lib browser styles.css",
     "test": "jest --watch",
     "test:all": "jest",
+    "lint": "run-p lint:ts",
+    "lint:ts": "eslint --fix \"**/*.@(js|jsx|ts|tsx)\"",
     "format": "prettier --write \"**/*.@(css|js|jsx|ts|tsx|json|md)\"",
     "precommit": "lint-staged",
     "prepublishOnly": "run-s build"
   },
   "lint-staged": {
-    "**/*.@(css|js|jsx|ts|tsx|json|md)": [
+    "**/*.@(js|jsx|ts|tsx)": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "**/*.@(css|json|md)": [
       "prettier --write",
       "git add"
     ]
@@ -54,6 +61,14 @@
     "cross-env": "^5.2.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "eslint": "^5.0.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.0",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-typescript": "^0.12.0",
     "husky": "^0.14.3",
     "jest": "^23.2.0",
     "lint-staged": "^7.2.0",
@@ -72,7 +87,8 @@
     "stylus": "^0.54.5",
     "ts-jest": "^23.0.0",
     "tslib": "^1.9.3",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "typescript-eslint-parser": "^16.0.1"
   },
   "browserslist": [
     "> 1%",

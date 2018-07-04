@@ -10,7 +10,6 @@ import camelCase from 'camelcase';
 import autoprefixer from 'autoprefixer';
 
 import packageInfo from './package.json';
-import { DEFAULT_ECDH_CURVE } from 'tls';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -42,7 +41,7 @@ const baseConfig = {
     }),
     typescript({
       cacheRoot: '.typescript-compile-cache',
-      clean: isProd ? true : false,
+      clean: isProd,
     }),
     postcss({
       extensions: ['.css', '.styl', '.stylus'],
