@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <div className="example">
         The following content are import from my lib.
-        <MyLib/>
+        <MyLib />
       </div>
     );
   }

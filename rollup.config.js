@@ -15,18 +15,18 @@ import { DEFAULT_ECDH_CURVE } from 'tls';
 const isProd = process.env.NODE_ENV === 'production';
 
 const baseExternalDependencies = {
-  'react': 'React',
+  react: 'React',
   'react-dom': 'ReactDOM',
   // currently we use TypeScript so we don't need `PropTypes`
   // 'prop-types': 'PropTypes',
-}
+};
 
 const modularExternalDependencies = [
   ...Object.keys(baseExternalDependencies),
-  ...Object.keys(packageInfo.dependencies || {})
-]
+  ...Object.keys(packageInfo.dependencies || {}),
+];
 
-const browserExternalDependencies = Object.keys(baseExternalDependencies)
+const browserExternalDependencies = Object.keys(baseExternalDependencies);
 
 const baseConfig = {
   input: 'src/index.ts',
@@ -38,7 +38,7 @@ const baseConfig = {
       modulesOnly: true,
     }),
     replace({
-      'clsprefix': packageInfo.name,
+      clsprefix: packageInfo.name,
     }),
     typescript({
       cacheRoot: '.typescript-compile-cache',
@@ -47,12 +47,14 @@ const baseConfig = {
     postcss({
       extensions: ['.css', '.styl', '.stylus'],
       plugins: [autoprefixer],
-      extract: isProd ? path.resolve(__dirname, './styles.css') : path.resolve(__dirname, './examples/src/lib/styles.css'),
-    })
+      extract: isProd
+        ? path.resolve(__dirname, './styles.css')
+        : path.resolve(__dirname, './examples/src/lib/styles.css'),
+    }),
   ],
 };
 
-const devConfig =  Object.assign({}, baseConfig, {
+const devConfig = Object.assign({}, baseConfig, {
   external: modularExternalDependencies,
   output: {
     file: 'examples/src/lib/index.js',
@@ -80,7 +82,7 @@ const esConfig = Object.assign({}, baseConfig, {
 const browserConfig = Object.assign({}, baseConfig, {
   external: browserExternalDependencies,
   output: {
-    name: camelCase(packageInfo.name, {pascalCase: true}),
+    name: camelCase(packageInfo.name, { pascalCase: true }),
     file: packageInfo.unpkg,
     format: 'iife',
     globals: baseExternalDependencies,
