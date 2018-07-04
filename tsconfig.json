@@ -12,6 +12,6 @@
 
     /* Module Resolution Options */
     "moduleResolution": "node",
-    "baseUrl": "./src",
+    "baseUrl": "./src"
   }
 }
