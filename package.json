@@ -8,7 +8,8 @@
   "files": [
     "lib",
     "es",
-    "browser"
+    "browser",
+    "styles.css"
   ],
   "scripts": {
     "start": "run-s clean initDevBuildBeforeWatch dev",
