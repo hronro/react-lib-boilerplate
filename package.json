@@ -9,8 +9,11 @@
     "lib",
     "es",
     "browser",
-    "styles.css"
+    "types",
+    "styles.css",
+    "README.md"
   ],
+  "types": "./types/index.d.ts",
   "scripts": {
     "start": "run-s clean initDevBuildBeforeWatch dev",
     "dev": "run-p watch example",

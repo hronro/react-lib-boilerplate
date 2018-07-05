@@ -3,7 +3,9 @@ node_modules
 /.cache
 /.typescript-compile-cache
 /examples/src/lib
+/dist
 /browser
 /es
 /lib
+/types
 /styles.css

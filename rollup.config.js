@@ -42,6 +42,29 @@ const baseConfig = {
     typescript({
       cacheRoot: '.typescript-compile-cache',
       clean: isProd,
+      useTsconfigDeclarationDir: isProd,
+      tsconfigOverride: Object.assign(
+        {},
+        isProd
+          ? {
+              compilerOptions: {
+                declaration: true,
+                declarationDir: './types',
+              },
+            }
+          : {
+              compilerOptions: { declaration: true },
+            },
+        /**
+         * only exclude test code in rollup config,
+         * rather than exclude them in tsconfig.json,
+         * because when run tests,
+         * they still need the compiler info in tsconfig.json
+         */
+        {
+          exclude: ['node_modules', 'src/__tests__/**'],
+        },
+      ),
     }),
     postcss({
       extensions: ['.css', '.styl', '.stylus'],
