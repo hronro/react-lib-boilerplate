@@ -4,7 +4,8 @@ import replace from 'rollup-plugin-replace';
 import NodeResolve from 'rollup-plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
 import postcss from 'rollup-plugin-postcss';
-import closure from 'rollup-plugin-closure-compiler-js';
+// eslint-disable-next-line import/no-unresolved
+import closure from '@ampproject/rollup-plugin-closure-compiler';
 
 import camelCase from 'camelcase';
 import autoprefixer from 'autoprefixer';
@@ -114,12 +115,7 @@ const browserConfig = Object.assign({}, baseConfig, {
     replace({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
-    closure({
-      compilationLevel: 'SIMPLE',
-      languageIn: 'ECMASCRIPT5_STRICT',
-      languageOut: 'ECMASCRIPT5_STRICT',
-      rewritePolyfills: false,
-    }),
+    closure(),
   ],
 });
 
