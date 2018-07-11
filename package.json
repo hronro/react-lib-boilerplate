@@ -42,13 +42,13 @@
       "git add"
     ]
   },
+  "author": "foisonocean",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/foisonocean/react-lib-boilerplate/issues"
   },
   "homepage": "https://github.com/foisonocean/react-lib-boilerplate#readme",
   "repository": "https://github.com/foisonocean/react-lib-boilerplate.git",
-  "author": "foisonocean",
-  "license": "MIT",
   "peerDependencies": {
     "react": "^15.0.0 || ^16.0.0",
     "react-dom": "^15.0.0 || ^16.0.0"
