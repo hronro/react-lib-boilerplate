@@ -1,0 +1,45 @@
+language: node_js
+node_js:
+  - "10"
+
+cache: yarn
+
+install: yarn
+
+jobs:
+  include:
+    - stage: test
+      script:
+        - yarn lint
+        - yarn test:all
+    - stage: deploy
+      name: "NPM Publish"
+      if: tag IS present
+      node_js: "10"
+      script: skip
+      deploy:
+        provider: npm
+        email: "$NPM_ACCOUNT"
+        api_key: "$NPM_AUTH_TOKEN"
+        skip_cleanup: true
+        on:
+          tags: true
+    - stage: deploy
+      name: "Github Release Upload"
+      if: tag IS present
+      node_js: "10"
+      script:
+        - yarn build
+      before_deploy: "cd types && tar zcvf 'typescript declarations.tar.gz' ./* && cd ../"
+      deploy:
+        provider: releases
+        api_key: "$GITHUB_OAUTH_TOKEN"
+        file_glob: true
+        file:
+          - "browser/*"
+          - "es/*"
+          - "lib/*"
+          - "types/typescript\ declarations.tar.gz"
+        skip_cleanup: true
+        on:
+          tags: true
